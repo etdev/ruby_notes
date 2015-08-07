@@ -252,80 +252,20 @@ This is my personal version of the [Ruby Style Guide](https://github.com/bbatsov
   first, *list = [1,2,3,4]
 
   hello_array = *"Hello"
-
   a = *(1..3)
-  ```
-
-* <a name="no-for-loops"></a>
-    Do not use `for`, unless you know exactly why. Most of the time iterators
-    should be used instead. `for` is implemented in terms of `each` (so
-    you're adding a level of indirection), but with a twist - `for`
-    doesn't introduce a new scope (unlike `each`) and variables defined
-    in its block will be visible outside it.
-<sup>[[link](#no-for-loops)]</sup>
-
-  ```Ruby
-  arr = [1, 2, 3]
-
-  # bad
-  for elem in arr do
-    puts elem
-  end
-
-  # note that elem is accessible outside of the for loop
-  elem # => 3
-
-  # good
-  arr.each { |elem| puts elem }
-
-  # elem is not accessible outside each's block
-  elem # => NameError: undefined local variable or method `elem'
-  ```
-
-* <a name="no-then"></a>
-  Do not use `then` for multi-line `if/unless`.
-<sup>[[link](#no-then)]</sup>
-
-  ```Ruby
-  # bad
-  if some_condition then
-    # body omitted
-  end
-
-  # good
-  if some_condition
-    # body omitted
-  end
-  ```
-
-* <a name="same-line-condition"></a>
-  Always put the condition on the same line as the `if`/`unless` in a
-  multi-line conditional.
-<sup>[[link](#same-line-condition)]</sup>
-
-  ```Ruby
-  # bad
-  if
-    some_condition
-    do_something
-    do_something_else
-  end
-
-  # good
-  if some_condition
-    do_something
-    do_something_else
-  end
   ```
 
 * <a name="ternary-operator"></a>
   Favor the ternary operator(`?:`) over `if/then/else/end` constructs.
-  It's more common and obviously more concise.
+  It's more common and obviously more concise. **[Thoughtbot](https://github.com/thoughtbot/guides/tree/master/style/ruby) disagrees.**
 <sup>[[link](#ternary-operator)]</sup>
 
   ```Ruby
   # bad
   result = if some_condition then something else something_else end
+
+  # bad
+  result = if some_condition; something else something_else end
 
   # good
   result = some_condition ? something : something_else
@@ -355,9 +295,6 @@ This is my personal version of the [Ruby Style Guide](https://github.com/bbatsov
 <sup>[[link](#no-semicolon-ifs)]</sup>
 
   ```Ruby
-  # bad
-  result = if some_condition; something else something_else end
-
   # good
   result = some_condition ? something : something_else
   ```
