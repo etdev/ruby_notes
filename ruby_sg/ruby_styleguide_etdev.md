@@ -3181,7 +3181,7 @@ resource cleanup when possible.
 require 'net/http'
 
 # first you setup your singleton
-* <a name="something"></a>
+* <a name="singleton"></a>
   Use ``extend self`` with methods that can only be set once using the ``||=`` 
   operator instead of including Ruby's ``Singleton``
   (from [ozmm.org](http://ozmm.org/posts/singin_singletons.html))
@@ -3221,6 +3221,75 @@ require 'net/http'
     Cheat.sheet "migrations"
     Cheat.sheet "yahoo_ceo"
   end
+  ```
+
+# My personal rules
+* <a name="range-comparisons"></a>
+  Use ranges instead of complex comparisons
+  ([from rubyinside](http://www.rubyinside.com/21-ruby-tricks-902.html))
+  ```Ruby
+  # bad
+  year = 1972
+  puts case year
+       when 1970 <= year && year < 1980
+        "Seventies"
+       when 1980 <= year && year < 1990
+        "Eighties"
+      end
+
+  # good
+  year = 1972
+  puts case year
+       when 1980..1979
+         "Seventies"
+       when 1980..1979
+         "Eighties"
+       end
+  ```
+* <a name="single-item-arrays"></a>
+  Allow both single items and arrays to be enumerated against
+  ([from rubyinside](http://www.rubyinside.com/21-ruby-tricks-902.html))
+  ```Ruby
+  # bad
+  if val.is_a?(Array)
+    val.each { |x| some_function(x) }
+  else
+    some_function(val)
+  end
+
+  # good
+  [*val].each do |item|
+    some_function(item)
+  end
+
+  # also good
+  Array(val).each do |item|
+    some_function(item)
+  end
+  ```
+
+* <a name="quick-interpolate"></a>
+  Use ``%s`` to quickly format strings
+  ([from rubyinside](http://www.rubyinside.com/21-ruby-tricks-902.html))
+  ```Ruby
+  # good
+  "[%s]" % "same old drag" # => "[same old drag]"
+  x = %w(p hello p)
+  "<%s>%s</%s>" % x # => "<p>hello</p>"
+  ```
+
+* <a name="double-star"></a>
+  Use ``**`` to grab the ``key: value`` pairs at the end of a method argument
+  list (from [samurails](http://samurails.com/ruby/ruby-tricks-improve-code/))
+  ```Ruby
+  # good
+  def test_method(arg_a, *arg_b, **arg_c)
+    return arg_a, arg_b, arg_c
+  end
+
+  # test_method(5) => [5, [], {}]
+  # test_method(5, 6, 7) => [5, [6, 7], {}]
+  # test_method(5, 6, 7, eight: 8) => [5, [6, 7], {eight: 8}]
   ```
 
 # Template:

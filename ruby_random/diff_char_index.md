@@ -40,6 +40,6 @@ end
 
 # Lessons learned
 * Use ``str.each_char`` to access each character in a string without having to make a copy of it
-* You can tack ``with_index`` on to any ``Enumerable``
+* You can tack ``with_index`` on to any ``Enumerator`` like the result of ``map``, ``each``, etc.
 * ``Enumerable#find_index`` returns the index of the first object for which the provided block is true.  Returns ``nil`` if no match is found.
-
+* Use ``0...str_a.size``, not ``0..str_a.size-1``
