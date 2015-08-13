@@ -1715,7 +1715,8 @@ resource cleanup when possible.
 
 require 'net/http'
 
-# first you setup your singleton
+# My personal rules
+
 * <a name="singleton"></a>
   Use ``extend self`` with methods that can only be set once using the ``||=`` 
   operator instead of including Ruby's ``Singleton``
@@ -1758,7 +1759,6 @@ require 'net/http'
   end
   ```
 
-# My personal rules
 * <a name="range-comparisons"></a>
   Use ranges instead of complex comparisons
   ([from rubyinside](http://www.rubyinside.com/21-ruby-tricks-902.html))
@@ -1854,7 +1854,7 @@ require 'net/http'
   attr_reader email
 
   # good
-  attr_reader :first_name, :last_name, ::email
+  attr_reader :first_name, :last_name, :email
   ```
 
 * <a name="heredocs"></a>
