@@ -73,8 +73,43 @@ You can use this when you want to make an object but it will only be used
 inside a differnt class, and it's not worth making its own class.
 
 # Chapter 3 - Dependencies
+For some desired behavior to exist in a system, there must be an object that
+contains it.  So an object either knows a behavior personally, inherits the
+behavior, or knows some other object that knows it personally.  This chapter
+is about getting behavior from *other objects*.  *Knowing something* about
+another object creates a dependency.  We want to create as few of these
+as possible.  A dependency can also be defined as the need for an object to
+change as the result of a change in a different object.
 
+Rules:
+* A class should never know the name of a message you plan to send to someone
+other than ``self``
+* You shouldn't refer to another class by its name.
+* Inject dependencies through arguments in ``initialize``, instead of creating
+instances of specific external classes in methods.
+* Don't have a method in class A that knows what message class B responds to
+* Reverse dependencies so that A depends on B when B is less likely to change
+than A.
 
+## Dependency Injection
+Our Gear method contains a direct reference to the ``Wheel`` class.  So if the
+``Wheel`` class's name changes, Gear will have to change too.  This is actually
+easy to fix, but there are other problems.  
+
+**Having a reference to the ``Wheel`` class means Gear is only willing to
+calculate gear inches for instances of ``Wheel``**.  If you later add some other
+class that also has the concept of a ``diameter``, Gear won't be able to send
+that message, because it's coupled to ``Wheel``.
+
+What's necessary in order to calculate ``gear_inches``?
+* An object that responds to ``diameter``
+
+That's really it.  It doesn't need to be a wheel.  It just has to give a result
+when sent the ``diameter`` message; ``Gear`` already has everything else it
+needs.
+
+You also need to isolate external *messages* (ones that are sent to someone
+other than ``self``).
 
 
 
